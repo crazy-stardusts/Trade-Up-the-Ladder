@@ -4,6 +4,7 @@ const api = require("./routes/api");
 require("dotenv").config();
 const mongoose = require("mongoose");
 const { errorHandler } = require("./Global Error/errorHandler");
+const rateLimit = require('express-rate-limit')
 
 main();
 async function main() {
