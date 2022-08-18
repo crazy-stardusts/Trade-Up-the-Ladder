@@ -5,6 +5,11 @@ require("dotenv").config();
 const mongoose = require("mongoose");
 const { errorHandler } = require("./Global Error/errorHandler");
 const rateLimit = require('express-rate-limit')
+const helmet = require('helmet');
+const mongoSanitize = require('express-mongo-sanitize');
+const xssClean = require('xss-clean')
+const hpp = require('hpp');
+
 
 main();
 async function main() {
@@ -21,7 +26,20 @@ async function main() {
             console.log(err);
         });
     const app = express();
-    app.use(express.json());
+    app.use(helmet());
+    app.use(express.json({limit : '10kb'}));
+    const limiter = rateLimit({
+        max : 100,
+        windowMs : 1000 * 60 * 60,
+        message : 'Too many requests from this IP, please try again in an hour!'
+    });
+
+    app.use('/api', limiter);
+
+    app.use(mongoSanitize());
+    app.use(xssClean());
+    app.use(hpp());
+
     var PORT = process.env.PORT || 3123;
 
     app.use("/api", api);
