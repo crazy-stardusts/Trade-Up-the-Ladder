@@ -26,6 +26,7 @@ async function main() {
             console.log(err);
         });
     const app = express();
+    // Security Features
     app.use(helmet());
     app.use(express.json({limit : '10kb'}));
     const limiter = rateLimit({
