@@ -13,11 +13,12 @@ const hpp = require('hpp');
 
 main();
 async function main() {
-    const uri = `mongodb+srv://Admin:${process.env.DATABASE_PASSWORD}@tutl.uba8zdh.mongodb.net/?retryWrites=true&w=majority&ssl=true`;
+    const uri = `mongodb+srv://tutlServer:${process.env.DATABASE_PASSWORD}@cluster0.qzscufs.mongodb.net/?retryWrites=true&w=majority`;
+    console.log(uri);
     mongoose
         .connect(uri, {
-            useNewUrlParser: true,
-            useUnifiedTopology: true,
+            // useNewUrlParser: true,
+            // useUnifiedTopology: true,
         })
         .then(() => {
             console.log("Connected to DB");
