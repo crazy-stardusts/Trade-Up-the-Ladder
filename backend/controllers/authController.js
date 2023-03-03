@@ -28,8 +28,7 @@ const createSignedToken = (user, statusCode, res) => {
         status : 'success',
         token,
         data : user.email
-    })
-}
+    }) }
 
 exports.signup = catchAsync(async (req, res, next) => {
     const newUser = await User.create(req.body);

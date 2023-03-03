@@ -11,8 +11,8 @@ const userSchema = new mongoose.Schema({
     email: {
         type: String,
         required: [true, "Email not found"],
-        unique: true,
-        lowercase: true,
+        unique: [true, "Email already exists"],
+        lowercase: [true, "Email must be lowercase"],
         validate: [validator.isEmail, "Incorrect Email"],
     },
     password: {
@@ -38,7 +38,9 @@ const userSchema = new mongoose.Schema({
 userSchema.pre("save", async function (next) {
     if (!this.isModified("password")) return next();
 
+    console.log(this.password);
     this.password = await bcrypt.hash(this.password, 12);
+    console.log(this.password);
     this.passwordChangedAt = Date.now() - (10 * 1000);
     next();
 });

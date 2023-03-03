@@ -1,5 +1,4 @@
 const express = require("express");
-const { getLastPrice } = require("./nseApi/getLastPrice");
 const api = require("./routes/api");
 require("dotenv").config();
 const mongoose = require("mongoose");
@@ -9,6 +8,7 @@ const helmet = require('helmet');
 const mongoSanitize = require('express-mongo-sanitize');
 const xssClean = require('xss-clean')
 const hpp = require('hpp');
+const morgan = require('morgan');
 
 
 main();
@@ -29,7 +29,8 @@ async function main() {
     const app = express();
     // Security Features
     app.use(helmet());
-    app.use(express.json({limit : '10kb'}));
+    app.use(express.json({ limit: '10kb' }));
+    app.use(morgan('dev'));
     const limiter = rateLimit({
         max : 100,
         windowMs : 1000 * 60 * 60,
